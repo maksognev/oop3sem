@@ -159,10 +159,71 @@ void testComposition() {
     line2.print();
 }
 
+void testAssignment() {
+    cout << "\n\n1. Копирование объектов:\n";
+    Point a(1, 2);
+    Point b(3, 4);
+    cout << "До присваивания:\n";
+    a.print();
+    b.print();
+
+    a = b;
+    cout << "После a = b:\n";
+    a.print();
+    b.print();
+
+    cout << "\n2. Изменение после присваивания:\n";
+    a.setX(100);
+    b.setY(200);
+    cout << "После изменения:\n";
+    a.print();
+    b.print();
+
+    cout << "\n3. Копирование указателей:\n";
+    Point* ptr1 = new Point(5, 6);
+    Point* ptr2 = new Point(7, 8);
+
+    cout << "До присваивания указателей:\n";
+    ptr1->print();
+    ptr2->print();
+
+    ptr1 = ptr2;
+    cout << "После ptr1 = ptr2:\n";
+    ptr1->print();
+    ptr2->print();
+
+    cout << "\n4. Изменение через указатели:\n";
+    ptr1->setX(300);
+    cout << "После ptr1->setX(300):\n";
+    ptr1->print();
+    ptr2->print();
+
+    delete ptr2;
+}
+
+void testVariableTypes() {
+    cout << "\n\n1. Point* ptr = new Point():\n";
+    Point* ptr1 = new Point(1, 1);
+    ptr1->print();
+
+    cout << "\n2. Point* ptr = new ColoredPoint():\n";
+    Point* ptr2 = new ColoredPoint(2, 2, "yellow");
+    ptr2->print();
+
+    cout << "\n3. Point obj = ColoredPoint():\n";
+    Point p = ColoredPoint(3, 3, "purple");
+    p.print();
+
+    delete ptr1;
+    delete ptr2;
+}
+
 int main() {
     setlocale(LC_ALL, "ru");
     test();
     testInheritance();
     testComposition();
+    testAssignment();
+    testVariableTypes();
     return 0;
 }
