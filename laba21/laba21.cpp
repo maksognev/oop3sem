@@ -1,6 +1,4 @@
-﻿// commit: "feat: add base Point class with constructors and methods"
-
-#include <iostream>
+﻿#include <iostream>
 #include <windows.h>
 using namespace std;
 
@@ -34,6 +32,37 @@ public:
     }
 };
 
+class ColoredPoint : public Point {
+private:
+    string color;
+public:
+    ColoredPoint() : Point() {
+        color = "black";
+        cout << "Вызван конструктор ColoredPoint() без параметров\n";
+    }
+    ColoredPoint(int x, int y, const string& color) : Point(x, y) {
+        this->color = color;
+        cout << "Вызван конструктор ColoredPoint(int x, int y, string color)\n";
+    }
+    ColoredPoint(const ColoredPoint& other) : Point(other) {
+        this->color = other.color;
+        cout << "Вызван конструктор копирования ColoredPoint(const ColoredPoint& other)\n";
+    }
+    ~ColoredPoint() {
+        cout << "~ColoredPoint()\n";
+    }
+    void setColor(const string& color) { this->color = color; }
+    string getColor() const { return color; }
+
+    void print() const {
+        cout << "ColoredPoint: x=" << getX() << ", y=" << getY() << ", color=" << color;
+    }
+
+    void printBase() const {
+        Point::print();
+    }
+};
+
 void test() {
     cout << "1. Статическое создание:" << endl;
     Point p1;
@@ -55,8 +84,30 @@ void test() {
     delete p3;
 }
 
+void testInheritance() {
+    cout << "\n\n1. Создание ColoredPoint статически:\n";
+    ColoredPoint cp1(5, 15, "red");
+    cp1.print();
+
+    cout << "\n2. Создание ColoredPoint динамически:\n";
+    ColoredPoint* cp2 = new ColoredPoint(25, 35, "blue");
+    cp2->print();
+
+    cout << "\n3. Вызов методов:";
+    cp2->print();
+    cp2->printBase();
+
+    cout << "\n4. Указатель базового класса на объект наследника:\n";
+    Point* basePtr = new ColoredPoint(45, 55, "green");
+    basePtr->print();
+
+    delete cp2;
+    delete basePtr;
+}
+
 int main() {
     setlocale(LC_ALL, "ru");
     test();
+    testInheritance();
     return 0;
 }
